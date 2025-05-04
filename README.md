@@ -1,2 +1,3 @@
 # cs30a-intro-to-linux
-Elective Class on a (not so) introduction to linux related to Linux
+Elective Class on a (not so) introduction to linux related course
+
