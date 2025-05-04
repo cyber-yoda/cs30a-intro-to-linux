@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Project: currentU
+# Date: May 1 2025 @ 10:30
+# Desc: Redirects the value of $USER variable and 
+#       Current Date into a new file called logged.in
+
+function gather {
+    echo " [+] Getting User > " $USER
+    echo " [+] Getting Current Date > " date
+}
+
+echo "Running gather function and redirecting into new file: 'logged.in'"
+gather > logged.in
