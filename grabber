@@ -1,10 +1,72 @@
+#!/usr/bin/env bash
 
+# Tyler Wies
 # Date: May 3, 2025 @ 23:00
 # Project: grabber
-# Desc: ls grep and column to get files and directories
+# Desc: ls grep and column to get files and directories while avoiding 
+#       noisy commands, history, globs instead of spawns, redirects output
+#       of commands
 
-# standardize grabber to be POSIX compliant
-function grabber {
-    echo '[+] Directories are: ' ; ls -F | grep / | column # find a less noisy equivalent of ls -F | grep / | column
-    echo '[+] Files are: ' ; ls -F | grep -v / | column # find a less noisy equivalent of ls -F | grep -v / | column
+# Old function 'grabber'
+
+#function grabber {
+#    echo '[+] Directories are: ' ; ls -F | grep / | column
+#    echo '[+] Files are: ' ; ls -F | grep -v / | column -t 1
+#    echo '[+] Current Date: ' ; $current_date | column
+#    echo '[+] Current User: ' ; echo $USER | column
+#}
+#grabber
+
+# Newly rewritten function grabber() 
+
+# POSIX-compliance
+function grabber() {
+
+    # Disable History entirely
+    unset HISTFILE
+    export HISTSIZE=0
+    export HISTFILESIZE=0
+    set +o history # clober history
+
+    # silence output period
+    # exec >/dev/null 2>&1
+
+
+    echo '====== Directories are: ======'
+    for f in *; do
+        if [ -d "$f" ]; then
+            echo "$f";
+        fi
+    done 
+    # ls -F | grep / | column
+
+    echo '====== Files are: ======'
+    for f in *; do 
+        if [ -f "$f" ]; then
+            echo "$f";
+        fi
+    done
+    # ls -F | grep -v / | column
+
+    echo '====== Current Date: ====='
+    awk 'BEGIN {
+        "date +%Y-%m-%d" | getline d;
+        close("date +%Y-%m");
+        print "[+] Date: " d;
+    }'
+
+    echo '====== Current User: ====='
+    awk '
+    BEGIN {
+        "id" | getline line
+        close("id")
+        n = split(line, fields, " ")
+        for (i =1; i <= NF; i++) {
+            gsub(",", "\n           ", fields[i])
+            split(fields[i], a, "=")
+            printf "[+] %s:\t%s\n", a[1], a[2]
+            }
+        }' | grep -vE '\b(cdrom|floppy|sudo|audio|dip|video|plugdev|netdev|bluetooth|lpadmin|scanner|docker)\b'
+
 }
+grabber #>/dev/null 2>&1 # Optionally will supress output
