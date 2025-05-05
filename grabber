@@ -1,0 +1,10 @@
+
+# Date: May 3, 2025 @ 23:00
+# Project: grabber
+# Desc: ls grep and column to get files and directories
+
+# standardize grabber to be POSIX compliant
+function grabber {
+    echo '[+] Directories are: ' ; ls -F | grep / | column # find a less noisy equivalent of ls -F | grep / | column
+    echo '[+] Files are: ' ; ls -F | grep -v / | column # find a less noisy equivalent of ls -F | grep -v / | column
+}
