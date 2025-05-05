@@ -8,6 +8,8 @@
 function gather {
     echo " [+] Getting User > " $USER
     echo " [+] Getting Current Date > " date
+
+    echo "Running gather function and redirecting into new file > 'logged.in'
 }
 
 echo "Running gather function and redirecting into new file: 'logged.in'"
