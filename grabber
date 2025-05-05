@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Tyler Wies
+#
 # Date: May 3, 2025 @ 23:00
 # Project: grabber
 # Desc: ls grep and column to get files and directories while avoiding 
